@@ -1,5 +1,6 @@
 ﻿@page
-@model IndexModel
+@* Khai bao model *@
+@model IndexModel 
 @{
     ViewData["Title"] = "Home page";
 }
@@ -21,6 +22,10 @@
             <td><img src="~/images/@product.Photo" width="120" height="100" /></td>
             <td>$@product.Price</td>
             <td>
+                @* Sử dụng tag helper *@
+                @* a asp-page="cart" --> chuyển trang sang cart *@
+                @* asp-page-handler="buynow" --> gửi với phương thức id *@
+                @* asp-route-id="@product.Id" --> Gửi kèm cái id đc chọn mua *@
                 <a asp-page="cart" asp-page-handler="buynow" asp-route-id="@product.Id">Buy Now</a>
             </td>
         </tr>

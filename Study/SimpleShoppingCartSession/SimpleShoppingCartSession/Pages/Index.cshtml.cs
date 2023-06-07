@@ -28,6 +28,7 @@ namespace SimpleShoppingCartSession.Pages
 
         public List<Product> Products;
 
+        // Su kien xay ra khi yeu cau gui toi la get
         public void OnGet()
         {
             ProductList productModel = new ProductList();

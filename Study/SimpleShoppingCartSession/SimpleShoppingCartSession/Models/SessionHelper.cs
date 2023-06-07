@@ -3,6 +3,7 @@ using System.Text.Json;
 
 namespace SimpleShoppingCartSession.Models
 {
+    // Utils to make Json to object, object to Json
     public static class SessionHelper
     {
         public static void SetObjectAsJson(this ISession session, string key, object value)

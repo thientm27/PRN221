@@ -17,24 +17,25 @@ namespace SimpleShoppingCartSession.Pages
             Total = cart.Sum(i => i.Product.Price * i.Quantity);
         }
 
+        // Khi nhận được on get "buynow"
         public IActionResult OnGetBuyNow(string id)
         {
-            var productModel = new ProductList();
-            cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            if (cart == null)
+            var productModel = new ProductList(); // khởi tạo list chứa product
+            cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart"); // lấy từ session xem có cart cũ không
+            if (cart == null) // trường hợp ếu có cart cũ
             {
-                cart = new List<Item>();
-                cart.Add(new Item
+                cart = new List<Item>(); // tạo cart mới
+                cart.Add(new Item // thêm mới
                 {
                     Product = productModel.find(id),
                     Quantity = 1
                 });
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart); // gán gược vào 
             }
-            else
+            else // có sẵn cart rồi
             {
-                int index = Exists(cart, id);
-                if (index == -1)
+                int index = Exists(cart, id); // check xem đã có chưa
+                if (index == -1) // không có thêm mới
                 {
                     cart.Add(new Item
                     {
@@ -46,11 +47,14 @@ namespace SimpleShoppingCartSession.Pages
                 {
                     cart[index].Quantity++;
                 }
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart); // lưu lại
             }
-            return RedirectToPage("Cart");
+
+            return RedirectToPage("Cart"); // reload trang
         }
 
+        // Khi nhận được on get "delete"
         public IActionResult OnGetDelete(string id)
         {
             cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
@@ -67,8 +71,9 @@ namespace SimpleShoppingCartSession.Pages
             {
                 cart[i].Quantity = quantities[i];
             }
+
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            return RedirectToPage("Cart");
+            return RedirectToPage("Cart"); // REload
         }
 
         private int Exists(List<Item> cart, string id)
@@ -80,6 +85,7 @@ namespace SimpleShoppingCartSession.Pages
                     return i;
                 }
             }
+
             return -1;
         }
     }

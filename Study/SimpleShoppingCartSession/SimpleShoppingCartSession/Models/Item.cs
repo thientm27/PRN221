@@ -1,6 +1,6 @@
 ﻿namespace SimpleShoppingCartSession.Models
 {
-    public class Item
+    public class Item // Product in cart 
     {
         public Product Product { get; set; }
 
