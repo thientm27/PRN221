@@ -6,7 +6,7 @@ dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 5.0.0-previ
 
 dotnet ef dbcontext scaffold "server =(local); database = MyStore;uid=sa;pwd=123;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models
 
-dotnet ef dbcontext scaffold "server =(local); database = FUFlowerBouquetManagement;uid=sa;pwd=123;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models
+dotnet ef dbcontext scaffold "server =(local); database = FUFlowerBouquetManagement;uid=sa;pwd=123456;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models 
 
 // SIngleton
 	private static CustomerDAO instance = null;
