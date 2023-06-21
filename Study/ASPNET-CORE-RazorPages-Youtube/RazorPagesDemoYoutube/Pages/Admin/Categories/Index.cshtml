@@ -1,0 +1,43 @@
+﻿@page
+@using RazorPagesDemoYoutube.Models
+@model Admin.Categories.IndexModel
+@{
+}
+<div class="card w-75" style="margin:auto">
+    <div class="card-header bg-info text-white" style="font-weight:bold;">
+        <i class="bi bi-plus-square"></i> List of Categories
+        <a asp-page="/Admin/Categories/AddOrEdit" class="btn btn-primary" style="float:right;"><i class="bi bi-plus-square"></i> New Category</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.LabelFor(m=>m.CategoryList.ElementAt(0).Name)</th>
+                    <th scope="col">@Html.LabelFor(m=>m.CategoryList.ElementAt(0).OrderDispay)</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Category categ in Model.CategoryList)
+                {
+                    <tr>
+                        <td>@categ.Name</td>
+                        <td>@categ.OrderDispay</td>
+                        <td>
+                            <div class="btn-group w-75" role="group">
+                                <a class="btn btn-outline-info mx-1 p-1"
+                               asp-page="AddOrEdit" asp-route-CategoryId="@categ.CategoryId"
+                                ><i class="bi bi-pencil-square" style="color:green;"></i></a>
+                                <a class="btn btn-outline-warning mx-1 p-1"
+                               asp-page="AddOrEdit" asp-page-handler="Delete" asp-route-CategoryId="@categ.CategoryId"
+                                ><i class="bi bi-trash" style="color:red;"></i></a>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

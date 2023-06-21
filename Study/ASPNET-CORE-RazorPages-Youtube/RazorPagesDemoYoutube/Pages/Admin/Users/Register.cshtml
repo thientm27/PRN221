@@ -1,0 +1,44 @@
+﻿@page
+@model Admin.Users.RegisterModel
+@{
+}
+<div class="card w-50" style="margin:auto">
+    <div class="card-header bg-info text-white" style="font-weight:bold;">
+        <i class="bi bi-plus-square"></i> Register New User
+    </div>
+    <form method="post">
+        <div class="card-body">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="mb-3">
+                <label class="form-label"> First Name</label>
+                <input asp-for="UserInput.FirstName" type="text" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Last Name</label>
+                <input asp-for="UserInput.LastName" type="text" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Phone Number</label>
+                <input asp-for="UserInput.PhoneNumber" type="text" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Email </label>
+                <input asp-for="UserInput.Email" type="email" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Password  </label>
+                <input asp-for="UserInput.Password" type="password" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label"> Confirm Password  </label>
+                <input asp-for="UserInput.ConfirmPassword"  type="password" class="form-control" />
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle" style="color:white;"></i> Register  </button>
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,38 @@
+﻿@page
+@model Admin.Categories.AddOrEditModel
+@{
+}
+<div class="card w-50" style="margin:auto">
+    <div class="card-header bg-info text-white" style="font-weight:bold;">
+        <i class="bi bi-plus-square"></i> New Category
+    </div>
+    <form method="post">
+        <div class="card-body">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="Categ.CategoryId" />
+            <div class="mb-3">
+                <label>@Html.LabelFor(c=>c.Categ.Name)</label>
+                <input asp-for="Categ.Name" type="text" class="form-control" />
+                <span asp-validation-for="Categ.Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label>@Html.LabelFor(c=>c.Categ.OrderDispay)</label>
+                <input asp-for="Categ.OrderDispay" type="number" class="form-control" />
+                <span asp-validation-for="Categ.OrderDispay" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            @if (Model.Categ.CategoryId == null)
+            {
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle" style="color:blue;"></i> Add </button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle" style="color:yellow;"></i> Update</button>
+            }
+        </div>
+    </form>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

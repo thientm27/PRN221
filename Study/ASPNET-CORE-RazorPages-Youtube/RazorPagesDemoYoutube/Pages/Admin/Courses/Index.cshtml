@@ -1,0 +1,162 @@
+﻿@page
+@model RazorPagesDemoYoutube.Pages.Admin.Courses.IndexModel
+@{
+}
+<div class="card" style="margin:auto">
+    <div class="card-header bg-info text-white" style="font-weight:bold;">
+        <i class="bi bi-plus-square"></i> List of Courses
+        <a asp-page="/Admin/Courses/AddOrEdit" class="btn btn-primary" style="float:right;"><i class="bi bi-plus-square"></i> New Course</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.LabelFor(m=>m.Courses.ElementAt(0).ImageUrl)</th>
+                    <th scope="col">@Html.LabelFor(m=>m.Courses.ElementAt(0).Title)</th>
+                    <th scope="col">@Html.LabelFor(m=>m.Courses.ElementAt(0).Description)</th>
+                    <th scope="col">@Html.LabelFor(m=>m.Courses.ElementAt(0).price)</th>
+                    <th scope="col">@Html.LabelFor(m=>m.Courses.ElementAt(0).Category)</th>
+                    <th scope="col">@Html.LabelFor(m=>m.Courses.ElementAt(0).Author)</th>
+                    <th scope="col">@Html.LabelFor(m=>m.Courses.ElementAt(0).PublishedDate)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model.Courses)
+                {
+                    <tr>
+                        <td class="col-md-1"><img src="~/@course.ImageUrl" class="img-thumbnail w-50" /></td>
+                        <td>@course.Title</td>
+                        <td>@course.Description</td>
+                        <td>@course.price</td>
+                        <td>@course.Category</td>
+                        <td>@course.Author</td>
+                        <td>@course.PublishedDate</td>
+                        <td>
+                            <div class="btn-group w-75" role="group">
+                                <a class="btn btn-outline-info mx-1 p-1"
+                               asp-page="AddOrEdit" asp-route-CourseId="@course.CourseId"><i class="bi bi-eye-fill"></i></a>
+
+                                <a class="btn btn-outline-info mx-1 p-1"
+                               asp-page="AddOrEdit" asp-route-CourseId="@course.CourseId">
+                                    <i class="bi bi-pencil-square" style="color:green;"></i>
+                                </a>
+
+                                <a class="btn btn-outline-warning mx-1 p-1"
+                               onclick="DisplayConfirmDeleteModal('@course.CourseId')">
+                                    <i class="bi bi-trash" style="color:red;"></i>
+                                </a>
+                                <a class="btn btn-outline-info mx-1 p-1"
+                               onclick="DisplayModalPublish('@course.CourseId')">
+                                    <i class="bi bi-calendar-check-fill" style="color:black;"></i>
+                                </a>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- delete modal -->
+    <div id="deleteModal" class="modal fade" role='dialog'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning" style="padding:5px;">
+                    <h4 class="modal-title">Confirm Delete </h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="CourseIdToDelete" class="form-control" />
+                    <p>Do You Really Want to Delete This Course ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cancel</button>
+                    <button type="button" class="btn btn-danger" id="btnDelete"><i class="bi bi-x"></i> Delete </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--delete modal ends here--->
+    <!-- Modal publish course-->
+    <div class="modal fade" id="PublishModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-weight:bold;color:forestgreen;">Publish Course</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Publised Date</label>
+                        <input type="date" id="publishedDate" class="form-control" />
+                        <input type="hidden" id="CourseIdPublish" class="form-control" />
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cancel</button>
+                    <button type="button" class="btn btn-success" id="btnPublish"><i class="bi bi-check2-square"></i> Publish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end  Modal publish course-->
+
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnDelete").on("click", function () {
+                let CourseId = $("#CourseIdToDelete").val();
+                let UrlHandler = "/Admin/Courses/AddOrEdit/?handler=Delete";
+                $.ajax({
+                    url: UrlHandler,
+                    type: 'GET',
+                    data: { CourseId: CourseId },
+                    success: function (data) {
+                        if (data.msg == "ok") {
+                            $("#deleteModal").modal('hide');
+                            window.location.reload();
+                        } else {
+                            alert(data.msg)
+                        }
+                    }
+                });
+            });
+
+
+            $("#btnPublish").on("click", function () {
+                let CourseId = $("#CourseIdPublish").val();
+                let Date = $("#publishedDate").val();
+                let UrlHandler = "/Admin/Courses/AddOrEdit/?handler=Publish";
+                $.ajax({
+                    url: UrlHandler,
+                    type: 'GET',
+                    data: { CourseId: CourseId, PublishDate: Date },
+                    success: function (data) {
+                        if (data.msg == "ok") {
+                            $("#PublishModal").modal('hide');
+                            window.location.reload();
+                        } else {
+                            alert(data.msg)
+                        }
+                    }
+                });
+            });
+        });
+
+
+        function DisplayConfirmDeleteModal(CourseId) {
+            //console.log(CourseId)
+            $("#CourseIdToDelete").val(CourseId);
+            $("#deleteModal").modal('show');
+        }
+
+        function DisplayModalPublish(CourseId){
+            $("#CourseIdPublish").val(CourseId);
+            $("#publishedDate").val(new Date().toISOString().substring(0,10));
+            $("#PublishModal").modal('show');
+        }
+    </script>
+}

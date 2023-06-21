@@ -1,0 +1,97 @@
+﻿@page
+@model Admin.Courses.AddOrEditModel
+@{
+}
+<div class="container">
+    <div class="card  w-75" style="margin:auto;">
+        <div class="card-header bg-success text-white" style="font-weight:bold">
+            <i class="bi bi-play-btn-fill"></i> New Course
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="CourseViewModel.CourseId" />
+                <input type="hidden" asp-for="CourseViewModel.ImageUrl" />
+                <input type="hidden" asp-for="CourseViewModel.PublishedDate" />
+                <div class="mb-3">
+                    <label class="form-label">@Html.LabelFor(c=>c.CourseViewModel.Title)</label>
+                    <input asp-for="CourseViewModel.Title" type="text" class="form-control">
+                    <span asp-validation-for="CourseViewModel.Title" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">@Html.LabelFor(c=>c.CourseViewModel.Description)</label>
+                    <textarea asp-for="CourseViewModel.Description" class="form-control"></textarea>
+                    <span asp-validation-for="CourseViewModel.Description" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-label">@Html.LabelFor(c=>c.CourseViewModel.price)</label>
+                            <input asp-for="CourseViewModel.price" type="number" class="form-control">
+                            <span asp-validation-for="CourseViewModel.price" class=" text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">@Html.LabelFor(c=>c.CourseViewModel.CategoryId)</label>
+                            <select asp-for="CourseViewModel.CategoryId" asp-items="Model.CategoryList" class="form-select"></select>
+                            <span asp-validation-for="CourseViewModel.CategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">@Html.LabelFor(c=>c.CourseViewModel.AuthorId)</label>
+                            <select asp-for="CourseViewModel.AuthorId" asp-items="Model.AuthorList" class="form-select"></select>
+                            <span asp-validation-for="CourseViewModel.AuthorId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card mt-4">
+                            <div class="card-header bg-info text-white" style="font-weight:bold">
+                                <i class="bi bi-plus-lg"></i>
+                                Upload Image
+                            </div>
+                            <div class="card-body">
+                                <input type="file" name="files" class="form-control" onchange="DisplayImage(event)" />
+                                @if (Model.CourseViewModel != null)
+                                {
+                                    <div class="mt-3 text-center">
+                                        <img src="~/@Model.CourseViewModel.ImageUrl" id="image1" class="w-100 img-thumbnail" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mt-3 text-center">
+                                        <img src="~/Images/default-image.png" id="image1" class="w-100 img-thumbnail" />
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    @if (Model.CourseViewModel != null)
+                    {
+                        <button type="submit" class="btn btn-info">
+                            <i class="bi bi-check-circle-fill" style="color:white;"></i> Update Course
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle-fill" style="color:white;"></i> Save Course
+                        </button>
+                    }
+                  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        function DisplayImage(event) {
+            console.log(event)
+            let image = document.getElementById("image1");
+            image.src = URL.createObjectURL(event.target.files[0])
+        }
+    </script>
+}
