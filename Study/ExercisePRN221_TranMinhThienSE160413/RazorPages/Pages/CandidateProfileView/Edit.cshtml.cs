@@ -6,17 +6,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject.Models;
+using Repositories.Implementations;
+using Repositories;
 
 namespace RazorPages.Pages.CandidateProfileView
 {
     public class EditModel : PageModel
     {
-        private readonly BusinessObject.Models.CandidateManagementContext _context;
+        ICandidateProfileRepository CandidateProfileRepository = new CandidateProfileRepository();
 
-        public EditModel(BusinessObject.Models.CandidateManagementContext context)
-        {
-            _context = context;
-        }
 
         [BindProperty]
         public CandidateProfile CandidateProfile { get; set; }
@@ -28,14 +26,12 @@ namespace RazorPages.Pages.CandidateProfileView
                 return NotFound();
             }
 
-            CandidateProfile = await _context.CandidateProfiles
-                .Include(c => c.Posting).FirstOrDefaultAsync(m => m.CandidateId == id);
-
+            CandidateProfile = await CandidateProfileRepository.FindCandidate(id) ;
             if (CandidateProfile == null)
             {
                 return NotFound();
             }
-           ViewData["PostingId"] = new SelectList(_context.JobPostings, "PostingId", "PostingId");
+           ViewData["PostingId"] = new SelectList(await CandidateProfileRepository.GetAllJobs(), "PostingId", "PostingId");
             return Page();
         }
 
@@ -45,33 +41,75 @@ namespace RazorPages.Pages.CandidateProfileView
         {
             if (!ModelState.IsValid)
             {
+                ViewData["PostingId"] = new SelectList(await CandidateProfileRepository.GetAllJobs(), "PostingId", "JobPostingTitle");
+                return Page();
+            }
+            if (!Validation())
+            {
+                ViewData["PostingId"] = new SelectList(await CandidateProfileRepository.GetAllJobs(), "PostingId", "JobPostingTitle");
                 return Page();
             }
 
-            _context.Attach(CandidateProfile).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+              await  CandidateProfileRepository.UpdateCandidate(CandidateProfile);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CandidateProfileExists(CandidateProfile.CandidateId))
-                {
-                    return NotFound();
-                }
-                else
-                {
+               
+                
                     throw;
-                }
+                
             }
 
             return RedirectToPage("./Index");
         }
-
-        private bool CandidateProfileExists(string id)
+        private bool Validation()
         {
-            return _context.CandidateProfiles.Any(e => e.CandidateId == id);
+            if (string.IsNullOrEmpty(CandidateProfile.Fullname))
+            {
+                ModelState.AddModelError(string.Empty, "All fields are required.");
+                return false;
+            }
+            if (string.IsNullOrEmpty(CandidateProfile.ProfileUrl))
+            {
+                ModelState.AddModelError(string.Empty, "All fields are required.");
+                return false;
+            }
+            if ((CandidateProfile.Birthday == null))
+            {
+                ModelState.AddModelError(string.Empty, "All fields are required.");
+                return false;
+            }
+            if (string.IsNullOrEmpty(CandidateProfile.ProfileShortDescription))
+            {
+                ModelState.AddModelError(string.Empty, "All fields are required.");
+                return false;
+            }
+            if (CandidateProfile.ProfileShortDescription.Length <= 12 || CandidateProfile.ProfileShortDescription.Length >= 201)
+            {
+                ModelState.AddModelError(string.Empty, "ProfileDescription from 12 – 200 characters.");
+                return false;
+            }
+
+            // Name
+            if (CandidateProfile.Fullname.Length <= 12)
+            {
+                ModelState.AddModelError(string.Empty, "Full name must be greater than 12 characters.");
+
+                return false;
+            }
+
+            string[] nameParts = CandidateProfile.Fullname.Split(' ');
+
+            if (nameParts.Any(part => !char.IsUpper(part[0])))
+            {
+                ModelState.AddModelError(string.Empty, "Each word of the full name must begin with a capital letter.");
+                return false;
+            }
+
+            return true;
         }
+
     }
 }

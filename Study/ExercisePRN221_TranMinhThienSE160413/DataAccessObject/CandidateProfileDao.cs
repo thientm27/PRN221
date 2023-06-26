@@ -34,7 +34,10 @@ namespace DataAccessObject
             return await _context.CandidateProfiles
                 .Include(c => c.Posting).ToListAsync();
         }
-
+        public async Task<IList<JobPosting>> GetAllJobs()
+        {
+            return await _context.JobPostings.ToListAsync();
+        }
         public async Task<IList<CandidateProfile>> SearchCandidate(string searchValue)
         {
 
@@ -46,6 +49,45 @@ namespace DataAccessObject
             || o.ProfileShortDescription.ToUpper().Contains(searchValue.ToUpper())
             ).ToList();
         }
+        public async Task DeleteCandidate(string id)
+        {
 
+            var CandidateProfile = await _context.CandidateProfiles.FindAsync(id);
+
+            if (CandidateProfile != null)
+            {
+                _context.CandidateProfiles.Remove(CandidateProfile);
+                await _context.SaveChangesAsync();
+            }
+        }
+        public async Task<CandidateProfile> FindCandidate(string id)
+        {
+
+           return await _context.CandidateProfiles
+               .Include(c => c.Posting).FirstOrDefaultAsync(m => m.CandidateId == id);
+
+        }
+        public async Task UpdateCandidate(CandidateProfile newCandidate)
+        {
+            _context.Attach(newCandidate).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch 
+            {
+                throw;
+            }
+    
+        }  
+        public async Task CreateNew(CandidateProfile newCandidate)
+        {
+            var maxId = _context.CandidateProfiles.Max(c => c.CandidateId);
+            newCandidate.CandidateId = maxId + 1;
+
+            _context.CandidateProfiles.Add(newCandidate);
+            await _context.SaveChangesAsync();
+        }
     }
 }

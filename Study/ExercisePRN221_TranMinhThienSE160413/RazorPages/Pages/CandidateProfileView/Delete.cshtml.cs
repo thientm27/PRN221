@@ -6,17 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject.Models;
+using Repositories.Implementations;
+using Repositories;
 
 namespace RazorPages.Pages.CandidateProfileView
 {
     public class DeleteModel : PageModel
     {
-        private readonly BusinessObject.Models.CandidateManagementContext _context;
-
-        public DeleteModel(BusinessObject.Models.CandidateManagementContext context)
-        {
-            _context = context;
-        }
+        ICandidateProfileRepository CandidateProfileRepository = new CandidateProfileRepository();
 
         [BindProperty]
         public CandidateProfile CandidateProfile { get; set; }
@@ -28,8 +25,7 @@ namespace RazorPages.Pages.CandidateProfileView
                 return NotFound();
             }
 
-            CandidateProfile = await _context.CandidateProfiles
-                .Include(c => c.Posting).FirstOrDefaultAsync(m => m.CandidateId == id);
+            CandidateProfile = await CandidateProfileRepository.FindCandidate(id);
 
             if (CandidateProfile == null)
             {
@@ -45,13 +41,7 @@ namespace RazorPages.Pages.CandidateProfileView
                 return NotFound();
             }
 
-            CandidateProfile = await _context.CandidateProfiles.FindAsync(id);
-
-            if (CandidateProfile != null)
-            {
-                _context.CandidateProfiles.Remove(CandidateProfile);
-                await _context.SaveChangesAsync();
-            }
+            await CandidateProfileRepository.DeleteCandidate(id);
 
             return RedirectToPage("./Index");
         }

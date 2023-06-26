@@ -42,7 +42,7 @@ namespace RazorPages.Pages.Login
                 }
    
             }
-
+            return Page();
         }
 
         public IActionResult OnPostLogOutAsync()
