@@ -37,6 +37,7 @@ namespace DataAccessObject
 
         public async Task<IList<CandidateProfile>> SearchCandidate(string searchValue)
         {
+
             var data = await _context.CandidateProfiles
                 .Include(c => c.Posting).ToListAsync();
 

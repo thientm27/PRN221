@@ -34,8 +34,13 @@ namespace RazorPages.Pages.Login
             }
             else
             {
-                HttpContext.Session.SetObjectAsJson("user", customerLogin);
-                return RedirectToPage("../CandidateProfileView/Index");
+                if(customerLogin.MemberRole == 1 
+                    || customerLogin.MemberRole == 2)
+                {
+                    HttpContext.Session.SetObjectAsJson("user", customerLogin);
+                    return RedirectToPage("../CandidateProfileView/Index");
+                }
+   
             }
 
         }
