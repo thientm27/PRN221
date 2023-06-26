@@ -23,7 +23,7 @@ namespace RazorPages.Pages.CandidateProfileView
         {
             if (!AdminCheck())
             {
-                return RedirectToPage();
+                return RedirectToPage("../Login/Login");
             }
             if (id == null)
             {
@@ -41,6 +41,10 @@ namespace RazorPages.Pages.CandidateProfileView
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
+            if (!AdminCheck())
+            {
+                return RedirectToPage("../Login/Login");
+            }
             if (id == null)
             {
                 return NotFound();

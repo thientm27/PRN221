@@ -23,11 +23,15 @@ namespace RazorPages.Pages.CandidateProfileView
         {
             if (!AdminCheck())
             {
-                return RedirectToPage();
+                return RedirectToPage("../Login/Login");
+            }
+            else {
+
+                CandidateProfile = await CandidateProfileRepository.GetAllCandidate();
+                return Page();
             }
 
-            CandidateProfile = await CandidateProfileRepository.GetAllCandidate();
-            return Page();
+
         }
 
         public async Task<IActionResult> OnPostSearch()

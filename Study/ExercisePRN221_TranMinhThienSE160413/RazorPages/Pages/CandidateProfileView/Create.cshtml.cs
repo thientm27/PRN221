@@ -19,7 +19,7 @@ namespace RazorPages.Pages.CandidateProfileView
         {
             if (!AdminCheck())
             {
-                return RedirectToPage();
+                return RedirectToPage("../Login/Login");
             }
             ViewData["PostingId"] = new SelectList(await CandidateProfileRepository.GetAllJobs(), "PostingId", "JobPostingTitle");
             return Page();
@@ -32,7 +32,7 @@ namespace RazorPages.Pages.CandidateProfileView
         {
             if (!AdminCheck())
             {
-                return RedirectToPage();
+                return RedirectToPage("../Login/Login");
             }
             if (!ModelState.IsValid)
             {

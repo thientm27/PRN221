@@ -24,7 +24,7 @@ namespace RazorPages.Pages.CandidateProfileView
         {
             if (!AdminCheck())
             {
-                return RedirectToPage();
+                return RedirectToPage("../Login/Login");
             }
             if (id == null)
             {
