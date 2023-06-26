@@ -6,35 +6,44 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using BusinessObject.Models;
+using RazorPage.ViewModels;
+using Repositories.Implementations;
+using Repositories;
 
 namespace RazorPages.Pages.CandidateProfileView
 {
     public class DetailsModel : PageModel
     {
-        private readonly BusinessObject.Models.CandidateManagementContext _context;
-
-        public DetailsModel(BusinessObject.Models.CandidateManagementContext context)
-        {
-            _context = context;
-        }
-
+        ICandidateProfileRepository CandidateProfileRepository = new CandidateProfileRepository();
         public CandidateProfile CandidateProfile { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
+            if (!AdminCheck())
+            {
+                return RedirectToPage();
+            }
             if (id == null)
             {
                 return NotFound();
             }
 
-            CandidateProfile = await _context.CandidateProfiles
-                .Include(c => c.Posting).FirstOrDefaultAsync(m => m.CandidateId == id);
-
+            CandidateProfile = await CandidateProfileRepository.FindCandidate(id);
             if (CandidateProfile == null)
             {
                 return NotFound();
             }
             return Page();
+        }
+        private bool AdminCheck()
+        {
+            var loginUser = HttpContext.Session.GetObjectFromJson<Hraccount>("user");
+            if (loginUser == null || loginUser.MemberRole == 3)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -69,17 +69,21 @@ namespace DataAccessObject
         }
         public async Task UpdateCandidate(CandidateProfile newCandidate)
         {
-            _context.Attach(newCandidate).State = EntityState.Modified;
+            var currentCandidate = await FindCandidate(newCandidate.CandidateId);
+            if (currentCandidate != null)
+            {
+                _context.Entry(currentCandidate).CurrentValues.SetValues(newCandidate);
+            }
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch 
+            catch
             {
                 throw;
             }
-    
+
         }  
         public async Task CreateNew(CandidateProfile newCandidate)
         {

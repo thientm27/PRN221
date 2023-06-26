@@ -34,7 +34,7 @@
                 @Html.DisplayNameFor(model => model.CandidateProfile[0].ProfileUrl)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CandidateProfile[0].Posting)
+                @Html.DisplayNameFor(model => model.CandidateProfile[0].Posting.JobPostingTitle)
             </th>
             <th></th>
         </tr>
@@ -55,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.ProfileUrl)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Posting.PostingId)
+                @Html.DisplayFor(modelItem => item.Posting.JobPostingTitle)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.CandidateId">Edit</a> |

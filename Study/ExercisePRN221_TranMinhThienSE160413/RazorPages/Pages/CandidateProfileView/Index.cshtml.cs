@@ -6,6 +6,7 @@ using BusinessObject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using RazorPage.ViewModels;
 using Repositories;
 using Repositories.Implementations;
 
@@ -18,13 +19,25 @@ namespace RazorPages.Pages.CandidateProfileView
 
         public IList<CandidateProfile> CandidateProfile { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            if (!AdminCheck())
+            {
+                return RedirectToPage();
+            }
+
             CandidateProfile = await CandidateProfileRepository.GetAllCandidate();
+            return Page();
         }
 
         public async Task<IActionResult> OnPostSearch()
         {
+
+            if (!AdminCheck())
+            {
+                return RedirectToPage();
+            }
+
             if (string.IsNullOrEmpty(SearchValue))
             {
                 CandidateProfile = await CandidateProfileRepository.GetAllCandidate();
@@ -35,6 +48,17 @@ namespace RazorPages.Pages.CandidateProfileView
 
             }
             return Page();
+        }
+
+        private bool AdminCheck()
+        {
+            var loginUser = HttpContext.Session.GetObjectFromJson<Hraccount>("user");
+            if(loginUser == null || loginUser.MemberRole == 3)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

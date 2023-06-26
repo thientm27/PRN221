@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObject.Models;
 using Repositories.Implementations;
 using Repositories;
+using RazorPage.ViewModels;
 
 namespace RazorPages.Pages.CandidateProfileView
 {
@@ -21,6 +22,10 @@ namespace RazorPages.Pages.CandidateProfileView
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
+            if (!AdminCheck())
+            {
+                return RedirectToPage();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -39,6 +44,10 @@ namespace RazorPages.Pages.CandidateProfileView
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            if (!AdminCheck())
+            {
+                return RedirectToPage();
+            }
             if (!ModelState.IsValid)
             {
                 ViewData["PostingId"] = new SelectList(await CandidateProfileRepository.GetAllJobs(), "PostingId", "JobPostingTitle");
@@ -86,14 +95,14 @@ namespace RazorPages.Pages.CandidateProfileView
                 ModelState.AddModelError(string.Empty, "All fields are required.");
                 return false;
             }
-            if (CandidateProfile.ProfileShortDescription.Length <= 12 || CandidateProfile.ProfileShortDescription.Length >= 201)
+            if (CandidateProfile.ProfileShortDescription.Length <= 11 || CandidateProfile.ProfileShortDescription.Length >= 201)
             {
                 ModelState.AddModelError(string.Empty, "ProfileDescription from 12 – 200 characters.");
                 return false;
             }
 
             // Name
-            if (CandidateProfile.Fullname.Length <= 12)
+            if (CandidateProfile.Fullname.Length <= 11)
             {
                 ModelState.AddModelError(string.Empty, "Full name must be greater than 12 characters.");
 
@@ -110,6 +119,15 @@ namespace RazorPages.Pages.CandidateProfileView
 
             return true;
         }
+        private bool AdminCheck()
+        {
+            var loginUser = HttpContext.Session.GetObjectFromJson<Hraccount>("user");
+            if (loginUser == null || loginUser.MemberRole == 3)
+            {
+                return false;
+            }
 
+            return true;
+        }
     }
 }
