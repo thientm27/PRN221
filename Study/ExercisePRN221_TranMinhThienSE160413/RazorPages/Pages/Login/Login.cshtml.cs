@@ -35,7 +35,7 @@ namespace RazorPages.Pages.Login
             else
             {
                 HttpContext.Session.SetObjectAsJson("user", customerLogin);
-                return RedirectToPage("CandidateProfileView/Index");
+                return RedirectToPage("../CandidateProfileView/Index");
             }
 
         }

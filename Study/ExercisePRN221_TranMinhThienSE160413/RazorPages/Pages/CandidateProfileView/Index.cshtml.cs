@@ -5,25 +5,21 @@ using System.Threading.Tasks;
 using BusinessObject.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-
+using Repositories;
+using Repositories.Implementations;
 
 namespace RazorPages.Pages.CandidateProfileView
 {
     public class IndexModel : PageModel
     {
-        private readonly BusinessObject.Models.CandidateManagementContext _context;
+        ICandidateProfileRepository CandidateProfileRepository = new CandidateProfileRepository();
 
-        public IndexModel(BusinessObject.Models.CandidateManagementContext context)
-        {
-            _context = context;
-        }
-
+ 
         public IList<CandidateProfile> CandidateProfile { get;set; }
 
         public async Task OnGetAsync()
         {
-            CandidateProfile = await _context.CandidateProfiles
-                .Include(c => c.Posting).ToListAsync();
+            CandidateProfile = await CandidateProfileRepository.GetAllCandidate();
         }
     }
 }
