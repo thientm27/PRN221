@@ -9,6 +9,7 @@ using BusinessObject.Models;
 using Repositories.Implementations;
 using Repositories;
 using RazorPage.ViewModels;
+using Microsoft.AspNetCore.SignalR;
 
 namespace RazorPages.Pages.CandidateProfileView
 {
@@ -51,7 +52,9 @@ namespace RazorPages.Pages.CandidateProfileView
             }
 
             await CandidateProfileRepository.DeleteCandidate(id);
-
+            var _hubContext = (IHubContext<SignalrHubServer>)HttpContext.RequestServices.GetService(typeof(IHubContext<SignalrHubServer>));
+            await Task.Delay(1500);
+            await _hubContext.Clients.All.SendAsync("LoadCustomer");
             return RedirectToPage("./Index");
         }
         private bool AdminCheck()

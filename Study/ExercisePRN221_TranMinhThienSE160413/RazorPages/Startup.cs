@@ -24,6 +24,7 @@ namespace RazorPages
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddSignalR();
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
             });
@@ -54,7 +55,7 @@ namespace RazorPages
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-     
+                endpoints.MapHub<SignalrHubServer>("signalrHubServer");
             });
         }
     }

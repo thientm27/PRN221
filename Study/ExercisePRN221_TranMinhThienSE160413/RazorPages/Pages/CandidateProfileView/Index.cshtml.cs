@@ -30,10 +30,31 @@ namespace RazorPages.Pages.CandidateProfileView
                 CandidateProfile = await CandidateProfileRepository.GetAllCandidate();
                 return Page();
             }
-
-
         }
-
+        public async Task<IActionResult> OnGetReload()
+        {
+            if (!AdminCheck())
+            {
+                return RedirectToPage("../Login/Login");
+            }
+            else
+            {
+                if (!AdminCheck())
+                {
+                    return RedirectToPage();
+                }
+                await Task.Delay(1500);
+                if (string.IsNullOrEmpty(SearchValue))
+                {
+                    CandidateProfile = await CandidateProfileRepository.GetAllCandidate();
+                }
+                else
+                {
+                    CandidateProfile = await CandidateProfileRepository.SearchCandidate(SearchValue);
+                }
+                return Page();
+            }
+        }
         public async Task<IActionResult> OnPostSearch()
         {
 
