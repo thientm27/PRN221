@@ -6,14 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f42a95c-d4b8-4ff8-b036-a415f02442d9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/DataAccessObject/CandidateProfileDao.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DataAccessObject/CandidateProfileDao.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RazorPages/Pages/CandidateProfileView/Create.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/RazorPages/Pages/CandidateProfileView/Create.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RazorPages/Pages/CandidateProfileView/Create.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RazorPages/Pages/CandidateProfileView/Create.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RazorPages/Pages/CandidateProfileView/Delete.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RazorPages/Pages/CandidateProfileView/Delete.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RazorPages/Pages/CandidateProfileView/Edit.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RazorPages/Pages/CandidateProfileView/Edit.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RazorPages/Pages/Login/Login.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RazorPages/Pages/Login/Login.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Repositories/ICandidateProfileRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/ICandidateProfileRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Repositories/Implementations/CandidateProfileRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Repositories/Implementations/CandidateProfileRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.ExercisePRN221_TranMinhThienSE160413/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ExercisePRN221_TranMinhThienSE160413/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,21 +18,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Thien\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Thien\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\Thien\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Thien\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Thien\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Thien\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.RazorPages">
     <configuration name="RazorPages" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/RazorPages/RazorPages.csproj" />
@@ -81,8 +74,12 @@
       <option name="presentableId" value="Default" />
       <updated>1687772324766</updated>
       <workItem from="1687772344421" duration="50000" />
+      <workItem from="1687834039006" duration="48000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
